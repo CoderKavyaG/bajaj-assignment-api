@@ -36,8 +36,7 @@ const lcm = (a, b) => (a * b) / gcd(a, b);
 app.get("/health", (_, res) => {
     res.status(200).json({
         is_success: true,
-        official_email: email,
-        data: null
+        official_email: email
     });
 });
 
@@ -131,7 +130,8 @@ app.post("/bfhl", async (req, res) => {
                 result =
                     aiRes.data?.candidates?.[0]?.content?.parts?.[0]?.text
                         ?.split(/\s+/)[0] || "Unknown";
-            } catch {
+            } catch (error) {
+                console.error("AI Error:", error.response?.data || error.message);
                 result = "Unavailable";
             }
         }
